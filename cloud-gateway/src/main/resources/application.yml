@@ -21,6 +21,7 @@ spring:
                        uri: lb://DEPARTMENT-SERVICE
                        predicates:
                           - Path:/departments/**
+                       filters:
                           - name: CircuitBreaker
                             args:
                                name: DEPARTMENT-SERVICE
@@ -30,18 +31,16 @@ management:
      endpoints:
         web:
           exposure:
-               include: hystrix.stream
-
+             include: hystrix.stream
 
 hystrix:
     command:
         fallbackcmd:    
-	   execution:
+           execution:
                 isolation:
                      thread:
                          timeoutInMilliseconds: 4000    
                         
-
 eureka:
     client:
       register-with-eureka: true
@@ -49,4 +48,4 @@ eureka:
       service-url:
               defaultZone: http://localhost:8761/eureka/
     instance:
-      hostname:locahost
+       hostname: locahost
