@@ -1,46 +1,21 @@
 server:
-   port : 9191
+  port: 9191
 
 spring:
-        application:
-             name: API-GATEWAY
-        cloud:
-             gateway:
-                  routes:
-                     - id: USER-SERVICE
-                       uri: lb://USER-SERVICE
-                       predicates:
-                          - Path=/users/**
-                       filters:
-                          - name: CircuitBreaker
-                            args:
-                               name: USER-SERVICE
-                               fallbackuri: forward:/userServiceFallBack
-
-                     - id: DEPARTMENT-SERVICE
-                       uri: lb://DEPARTMENT-SERVICE
-                       predicates:
-                          - Path:/departments/**
-                       filters:
-                          - name: CircuitBreaker
-                            args:
-                               name: DEPARTMENT-SERVICE
-                               fallbackuri: forward:/DepartmentServiceFallBack
-
-management:
-     endpoints:
-        web:
-          exposure:
-             include: hystrix.stream
-
-hystrix:
-    command:
-        fallbackcmd:    
-           execution:
-                isolation:
-                     thread:
-                         timeoutInMilliseconds: 4000    
-                        
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+        - id: DEPARTMENT-SERVICE
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/departments/**
+              
 eureka:
     client:
       register-with-eureka: true
